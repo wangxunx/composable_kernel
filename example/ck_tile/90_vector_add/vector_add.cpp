@@ -9,8 +9,8 @@ auto create_args(int argc, char* argv[])
         .insert("n", "4096", "n dimension")
         .insert("v", "1", "cpu validation or not")
         .insert("prec", "fp16", "precision")
-        .insert("warmup", "5", "cold iter")
-        .insert("repeat", "20", "hot iter");
+        .insert("warmup", "200", "cold iter")
+        .insert("repeat", "1000", "hot iter");
 
     bool result = arg_parser.parse(argc, argv);
     return std::make_tuple(result, arg_parser);
@@ -80,7 +80,7 @@ bool run(const ck_tile::ArgParser& arg_parser)
                                        m,
                                        n));
 
-    std::size_t num_btype = sizeof(XDataType) * m * n + sizeof(YDataType) * m * n;
+    std::size_t num_btype = 2 * sizeof(XDataType) * m * n + sizeof(YDataType) * m * n;
 
     float gb_per_sec = num_btype / 1.E6 / ave_time;
 
