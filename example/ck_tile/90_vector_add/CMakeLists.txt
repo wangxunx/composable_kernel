@@ -1,3 +1,22 @@
+set(TILE_EXAMPLE_VECTOR_ADD "tile_example_vector_add")
 # not using add_example_executable() to add this target, since we don't want this to have
 # to be included in "make all/install/check"
-add_executable(tile_example_vector_add EXCLUDE_FROM_ALL vector_add.cpp)
+message("adding example ${TILE_EXAMPLE_VECTOR_ADD}")
+
+add_executable(${TILE_EXAMPLE_VECTOR_ADD} EXCLUDE_FROM_ALL vector_add.cpp)
+target_include_directories(${TILE_EXAMPLE_VECTOR_ADD} PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+set(TILE_EXAMPLE_VECTOR_ADD_COMPILE_OPTIONS)
+
+# generate assembly
+list(APPEND TILE_EXAMPLE_VECTOR_ADD_COMPILE_OPTIONS -v --save-temps -Wno-gnu-line-marker)
+
+# NOTE: we turn off undefined-func-template to let source compile without explicit declare function specializations
+list(APPEND TILE_EXAMPLE_VECTOR_ADD_COMPILE_OPTIONS -Wno-undefined-func-template -Wno-float-equal)
+
+target_compile_options(${TILE_EXAMPLE_VECTOR_ADD} PRIVATE ${TILE_EXAMPLE_VECTOR_ADD_COMPILE_OPTIONS})
+
+# TODO: we have to turn off this global prop, otherwise the progress bar generated
+# by cmake will print too many files, execvp: /bin/sh: Argument list too long
+# however, this property may affect global
+# TODO: consider codegen a makefile by us
+set_property(GLOBAL PROPERTY RULE_MESSAGES OFF)
