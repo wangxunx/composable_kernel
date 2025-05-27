@@ -50,11 +50,11 @@ bool run(const ck_tile::ArgParser& arg_parser)
 
     // Step 2: Problem Setting
     // Step 2.1 Set the following variables
-    using Vector     = ck_tile::sequence<1, 4>;
+    using Vector     = ck_tile::sequence<1, 8>;
     using BlockWarps = ck_tile::sequence<1, 8>;
     // Step 2.2 Derive the following variables
-    using BlockTile  = ck_tile::sequence<1, 2048>;
-    using WarpTile   = ck_tile::sequence<1, 256>;
+    using BlockTile  = ck_tile::sequence<1, 4096>;
+    using WarpTile   = ck_tile::sequence<1, 512>;
 
     // Step 2.3 Define "Shape" for "Problem", and define "Problem" for "Kernel"
     using Shape = ck_tile::VectorAddShape<BlockWarps, BlockTile, WarpTile, Vector>;
